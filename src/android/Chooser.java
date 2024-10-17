@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.provider.DocumentsContract;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -62,18 +63,19 @@ public class Chooser extends CordovaPlugin {
 
 	public void chooseFile (CallbackContext callbackContext, String accept, Boolean includeData) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("*/*");
+		intent.setType("text/xml");
 		if (!accept.equals("*/*")) {
 			intent.putExtra(Intent.EXTRA_MIME_TYPES, accept.split(","));
 		}
-
-		Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
-		intent.putExtra(Intent.EXTRA_INITIAL_URI, folderUri);
-		Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
-		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
 		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+		// Set the folder URI from the provided file path
+   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
+    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
+		Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
+		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
 		this.includeData = includeData;
 
 		Intent chooser = Intent.createChooser(intent, "Select File");
