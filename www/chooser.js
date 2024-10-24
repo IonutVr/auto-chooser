@@ -97,10 +97,10 @@ function getFileInternal (
 			'getFile',
 			[
 				(typeof uriPath === 'string' ?
-					uriPath..replace(/\s/g, '') :
+					uriPath.replace(/\s/g, '') :
 					undefined),
 				(typeof filePath === 'string' ?
-					filePath..replace(/\s/g, '') :
+					filePath.replace(/\s/g, '') :
 					undefined),
 				includeData
 			]
