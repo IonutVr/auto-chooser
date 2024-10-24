@@ -61,7 +61,7 @@ public class Chooser extends CordovaPlugin {
 	private CallbackContext callback;
 	private Boolean includeData;
 
-	public void chooseFile (CallbackContext callbackContext, String accept, Boolean includeData) {
+	public void chooseFile (CallbackContext callbackContext, String uriPath, String filePath, Boolean includeData) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("text/xml");
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -69,9 +69,9 @@ public class Chooser extends CordovaPlugin {
 		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
 		// Set the folder URI from the provided file path
-   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
+   	 	Uri folderUri = Uri.parse(uriPath);
     		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
-		Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
+		Uri fileUri = Uri.parse(filePath);
 		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
 		this.includeData = includeData;
 
