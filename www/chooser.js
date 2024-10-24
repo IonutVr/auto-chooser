@@ -43,15 +43,22 @@ function from_base64 (sBase64, nBlocksSize) {
 }
 
 function getFileInternal (
-	accept,
+	uriPath, 
+	filePath,
 	includeData,
 	successCallback,
 	failureCallback
 ) {
-	if (typeof accept === 'function') {
+	if (typeof uriPath === 'function') {
 		failureCallback = successCallback;
-		successCallback = accept;
-		accept = undefined;
+		successCallback = uriPath;
+		uriPath = undefined;
+	}
+
+	if (typeof filePath === 'function') {
+		failureCallback = successCallback;
+		successCallback = filePath;
+		filePath = undefined;
 	}
 
 	var result = new Promise(function (resolve, reject) {
@@ -89,9 +96,12 @@ function getFileInternal (
 			'Chooser',
 			'getFile',
 			[
-				(typeof accept === 'string' ?
-					accept.toLowerCase().replace(/\s/g, '') :
-					undefined) || '*/*',
+				(typeof uriPath === 'string' ?
+					uriPath..replace(/\s/g, '') :
+					undefined),
+				(typeof filePath === 'string' ?
+					filePath..replace(/\s/g, '') :
+					undefined),
 				includeData
 			]
 		);
@@ -108,10 +118,10 @@ function getFileInternal (
 }
 
 module.exports = {
-	getFile: function (accept, successCallback, failureCallback) {
-		return getFileInternal(accept, true, successCallback, failureCallback);
+	getFile: function (uriPath, filePath, successCallback, failureCallback) {
+		return getFileInternal(uriPath, filePath, true, successCallback, failureCallback);
 	},
-	getFileMetadata: function (accept, successCallback, failureCallback) {
-		return getFileInternal(accept, false, successCallback, failureCallback);
+	getFileMetadata: function (uriPath, filePath, successCallback, failureCallback) {
+		return getFileInternal(uriPath, filePath, false, successCallback, failureCallback);
 	}
 };
