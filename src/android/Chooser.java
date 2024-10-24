@@ -92,7 +92,7 @@ public class Chooser extends CordovaPlugin {
 	) {
 		try {
 			if (action.equals(Chooser.ACTION_OPEN)) {
-				this.chooseFile(callbackContext, args.getString(0), args.getBoolean(1));
+				this.chooseFile(callbackContext, args.getString(0), args.getString(1), args.getBoolean(1));
 				return true;
 			}
 		}
