@@ -63,15 +63,26 @@ public class Chooser extends CordovaPlugin {
 
 	public void chooseFile (CallbackContext callbackContext, String accept, Boolean includeData) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("text/xml");
+
+		int androidVersion = Integer.parseInt(accept);
+		if(androidVersion >= 14) {
+			// Set the folder URI from the provided file path
+	   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger");
+	    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
+			Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger/RxInfo.txt");
+			intent.setType("text/plain");
+		} else {
+			// Set the folder URI from the provided file path
+	   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
+	    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
+			Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
+			intent.setType("text/xml");
+		}
+		
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
 		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-
-		// Set the folder URI from the provided file path
-   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
-    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
-		Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
+		
 		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
 		this.includeData = includeData;
 
