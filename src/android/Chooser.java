@@ -65,17 +65,19 @@ public class Chooser extends CordovaPlugin {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 		int androidVersion = Integer.parseInt(accept);
+		Uri folderUri = "";
+		Uri fileUri = "";
 		if(androidVersion >= 14) {
 			// Set the folder URI from the provided file path
-	   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger");
+	   	 	folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger");
 	    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
-			Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger/RxInfo.txt");
+			fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger/RxInfo.txt");
 			intent.setType("text/plain");
 		} else {
 			// Set the folder URI from the provided file path
-	   	 	Uri folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
+	   	 	folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats");
 	    		intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderUri);
-			Uri fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
+			fileUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Stats/MxStats.xml");
 			intent.setType("text/xml");
 		}
 		
