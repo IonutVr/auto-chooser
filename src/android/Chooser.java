@@ -65,8 +65,8 @@ public class Chooser extends CordovaPlugin {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 		int androidVersion = Integer.parseInt(accept);
-		Uri folderUri = "";
-		Uri fileUri = "";
+		Uri folderUri = Uri.parse("");
+		Uri fileUri = Uri.parse("");
 		if(androidVersion >= 14) {
 			// Set the folder URI from the provided file path
 	   	 	folderUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:RxLogger");
